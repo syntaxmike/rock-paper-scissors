@@ -1,3 +1,22 @@
+let rock = document.querySelector('#rock');
+let paper = document.querySelector('#paper');
+let scissors = document.querySelector('#scissors');
+let play = document.querySelector('#play');
+let scoreboard = document.querySelector('#score');
+
+rock.addEventListener('click', () => {
+    playRound('rock', getComputerChoice());
+});
+
+paper.addEventListener('click', () => {
+    playRound('paper', getComputerChoice());
+});
+
+scissors.addEventListener('click', () => {
+    playRound('scissors', getComputerChoice());
+});
+
+
 function getComputerChoice() {
     const gameChoices = ['rock', 'paper', 'scissors'];
     const randomChoice = Math.floor(Math.random() * gameChoices.length);
@@ -5,90 +24,35 @@ function getComputerChoice() {
     return gameChoices[randomChoice];
 }
 
-function getUserChoice() {
-    const gameChoices = ['rock', 'paper', 'scissors'];
-    const userChoice = prompt(`Rock, Paper, or Scissors?
-Choice must be typed as shown above.`);
+let playerScore = 0;
+let cpuScore = 0;
+let playerScoreDisplay = document.querySelector('#playerScoreDisplay');
+let cpuScoreDisplay = document.querySelector('#cpuScoreDisplay');
 
-    if(userChoice === null) {
-        alert(`Game canceled`);
-        return 0;
-    } else if (gameChoices.includes(userChoice.toLowerCase())) {
-        return userChoice.toLowerCase();
+let playRound = (playerChoice, cpuChoice) => {
+
+    if(playerScore === 5) {
+        play.textContent = `You won the game!`
+    } else if(cpuScore === 5) {
+        play.textContent = `You lost the game!`
     } else {
-        alert(`Invalid response`);
-        return getUserChoice();
+        switch (true) {
+            case (playerChoice == cpuChoice):
+                play.textContent = `Round ends in a draw, you both selected ${playerChoice}`;
+                break;
+            case (playerChoice === 'rock' && cpuChoice === 'scissors') 
+            || (playerChoice === 'paper' && cpuChoice === 'rock') 
+            || (playerChoice === 'scissors' && cpuChoice === 'paper'):
+                play.textContent = `You beat the cpu!  Your choice ${playerChoice} beats the CPU choice of ${cpuChoice}.`;
+                playerScore++;
+                userScoreDisplay.textContent = `Your Score: ${playerScore}`
+                break;
+            default:
+                play.textContent = `You lost to the cpu!   CPU chose ${cpuChoice} to beat your ${playerChoice}.`;
+                cpuScore++;
+                cpuScoreDisplay.textContent = `CPU Score: ${cpuScore}`
+                break;
+        }       
     }
 
-}
-
-function playRound(playerSelection, computerSelection) {
-    const PLAYER_WON = `You won the round!`;
-    const PLAYER_LOST = `You lost the round!`;
-    const TIE_GAME = `The round was a draw`;
-
-    switch (playerSelection) {
-        case 'rock':
-            if(computerSelection === 'paper') {
-                return PLAYER_LOST;
-            } else if(computerSelection === 'scissors') {
-                return PLAYER_WON;
-            } else {
-                return TIE_GAME;
-            }
-        case 'paper':
-            if(computerSelection === 'scissors') {
-                return PLAYER_LOST;
-            } else if(computerSelection === 'rock') {
-                return PLAYER_WON;
-            } else {
-                return TIE_GAME;
-            }
-        case 'scissors':
-            if(computerSelection === 'rock') {
-                return PLAYER_LOST;
-            } else if(computerSelection === 'paper') {
-                return PLAYER_WON;
-            } else {
-                return TIE_GAME;
-            }
-    }
-}
-
-function game() {
-
-    alert(`Five round game of Rock, Paper, Scissors!
-Round history will be the console.`);
-    let playerScore = 0;
-    let computerScore = 0;
-
-    for (let round = 0; round < 5; round++) {
-
-        let playerSelection = getUserChoice();
-        let computerSelection = getComputerChoice();
-        let result = playRound(playerSelection, computerSelection);
-
-        if(playerSelection === 0) {
-            console.log(`Game was canceled by the user`);
-            break;
-        }
-
-        playerScore = (result.search(`won`) != -1) ? ++playerScore : playerScore;
-        computerScore = (result.search(`lost`) != -1) ? ++computerScore : computerScore;
-
-        console.log(`${result}`);
-
-    }
-
-    console.log(`*Final score* Player: ${playerScore} | Computer: ${computerScore}`);
-
-    if(playerScore > computerScore) {
-        console.log(`You won the game!`)
-    } else if(playerScore === computerScore) {
-        console.log(`The game ends in a draw`)
-    } else {
-        console.log(`You lost the game :(`)
-    }
-}
-
-game();
+};

@@ -1,0 +1,21 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+button {
+    background-color: dodgerblue;
+    border-radius: 6px;
+}
+
+#choices {
+    display: flex;
+    gap: 10px;
+}
+
+#score {
+    display: flex;
+    gap: 16px;
+}
