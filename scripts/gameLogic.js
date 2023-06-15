@@ -1,55 +1,68 @@
-let rock = document.querySelector('#rock');
-let paper = document.querySelector('#paper');
-let scissors = document.querySelector('#scissors');
-let play = document.querySelector('#play');
-let scoreboard = document.querySelector('#score');
+const userChoices = document.querySelectorAll('#choices');
+const play = document.querySelector('#play');
+const scoreboard = document.querySelector('#score');
 
-rock.addEventListener('click', () => {
-    playRound('rock', getComputerChoice());
-});
+userChoices.forEach(key => key.addEventListener('click', getChoice));
 
-paper.addEventListener('click', () => {
-    playRound('paper', getComputerChoice());
-});
-
-scissors.addEventListener('click', () => {
-    playRound('scissors', getComputerChoice());
-});
+function getChoice(e) {
+    const player = e.srcElement.attributes[0].value;
+    playRound(player, getComputerChoice());
+}
 
 
 function getComputerChoice() {
-    const gameChoices = ['rock', 'paper', 'scissors'];
+    const gameChoices = ['Rock', 'Paper', 'Scissors'];
     const randomChoice = Math.floor(Math.random() * gameChoices.length);
 
     return gameChoices[randomChoice];
 }
 
+function checkWinner (pScore, cScore) {
+
+    const btn = document.createElement('button');
+    btn.textContent = 'Play Again?';
+    btn.addEventListener('click', () => {
+        playAgain();
+    });
+    btn.className = 'btn-style';
+
+    if(pScore === 5) {
+        play.textContent = `You won the game!`
+        play.appendChild(btn);
+    } else if(cScore === 5) {
+        play.textContent = `You lost the game!`
+        play.appendChild(btn);
+    }
+}
+
+function playAgain() {
+    playerScore = 0;
+    cpuScore = 0;
+    userScoreDisplay.textContent = `Your Score: ${playerScore}`;
+    cpuScoreDisplay.textContent = `CPU Score: ${cpuScore}`;
+    play.textContent = ``;
+} 
+
 let playerScore = 0;
 let cpuScore = 0;
-let playerScoreDisplay = document.querySelector('#playerScoreDisplay');
-let cpuScoreDisplay = document.querySelector('#cpuScoreDisplay');
+const playerScoreDisplay = document.querySelector('#playerScoreDisplay');
+const cpuScoreDisplay = document.querySelector('#cpuScoreDisplay');
 
-let playRound = (playerChoice, cpuChoice) => {
+const playRound = (playerChoice, cpuChoice) => {
 
-    if(playerScore === 5) {
-        play.textContent = `You won the game!`
-    } else if(cpuScore === 5) {
-        play.textContent = `You lost the game!`
-    } else {
+    if(playerScore !== 5 && cpuScore !== 5) {
         switch (true) {
             case (playerChoice == cpuChoice):
-                play.textContent = `Round ends in a draw, you both selected ${playerChoice}`;
+                play.textContent = `Round ends in a draw\r\nBoth players selected ${playerChoice}`;
                 break;
-            case (playerChoice === 'rock' && cpuChoice === 'scissors') 
-            || (playerChoice === 'paper' && cpuChoice === 'rock') 
-            || (playerChoice === 'scissors' && cpuChoice === 'paper'):
-                play.textContent = `You beat the cpu!  Your choice ${playerChoice} beats the CPU choice of ${cpuChoice}.`;
-                playerScore++;
+            case (playerChoice === 'Rock' && cpuChoice === 'Scissors') || (playerChoice === 'Paper' && cpuChoice === 'Rock') || (playerChoice === 'Scissors' && cpuChoice === 'Paper'):
+                play.textContent = `Your selection of ${playerChoice} beats ${cpuChoice}.`;
+                checkWinner(++playerScore, cpuScore)
                 userScoreDisplay.textContent = `Your Score: ${playerScore}`
                 break;
             default:
-                play.textContent = `You lost to the cpu!   CPU chose ${cpuChoice} to beat your ${playerChoice}.`;
-                cpuScore++;
+                play.textContent = `Your selection of ${playerChoice} lost to ${cpuChoice}`;
+                checkWinner(playerScore, ++cpuScore)
                 cpuScoreDisplay.textContent = `CPU Score: ${cpuScore}`
                 break;
         }       

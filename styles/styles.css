@@ -1,18 +1,30 @@
 body {
+    align-items: center;
+    background-color: black;
+    color: wheat;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
+.btn-style {
+    display: flex;
+    margin: auto;
+    background-color: black;
+    color: wheat;
+}
 
-button {
-    background-color: dodgerblue;
-    border-radius: 6px;
+img {
+    width: 250px;
+    height: 250px;
 }
 
 #choices {
     display: flex;
     gap: 10px;
+}
+
+#play {
+    white-space: pre;
 }
 
 #score {
