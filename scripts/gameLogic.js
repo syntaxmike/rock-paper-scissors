@@ -38,7 +38,7 @@ function checkWinner (pScore, cScore) {
 function playAgain() {
     playerScore = 0;
     cpuScore = 0;
-    userScoreDisplay.textContent = `Your Score: ${playerScore}`;
+    playerScoreDisplay.textContent = `Your Score: ${playerScore}`;
     cpuScoreDisplay.textContent = `CPU Score: ${cpuScore}`;
     play.textContent = ``;
 } 
@@ -58,7 +58,7 @@ const playRound = (playerChoice, cpuChoice) => {
             case (playerChoice === 'Rock' && cpuChoice === 'Scissors') || (playerChoice === 'Paper' && cpuChoice === 'Rock') || (playerChoice === 'Scissors' && cpuChoice === 'Paper'):
                 play.textContent = `Your selection of ${playerChoice} beats ${cpuChoice}.`;
                 checkWinner(++playerScore, cpuScore)
-                userScoreDisplay.textContent = `Your Score: ${playerScore}`
+                playerScoreDisplay.textContent = `Your Score: ${playerScore}`
                 break;
             default:
                 play.textContent = `Your selection of ${playerChoice} lost to ${cpuChoice}`;
